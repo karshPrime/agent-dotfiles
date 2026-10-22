@@ -1,0 +1,12 @@
+
+#- SSH ---------------------------------------------------------------------------------------------
+#- configs specific to macos -----------------------------------------------------------------------
+
+# UseKeychain only exists in Apple's /usr/bin/ssh; skip it instead of erroring elsewhere
+IgnoreUnknown UseKeychain
+
+# Passphrases live in the login keychain, keys load into the agent on first use
+Host *
+    UseKeychain yes
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/key
