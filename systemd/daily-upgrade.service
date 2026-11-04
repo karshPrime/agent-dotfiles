@@ -1,0 +1,13 @@
+[Unit]
+Description=Upgrade system packages, then refresh uplink
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+Environment=DEBIAN_FRONTEND=noninteractive
+ExecStart=/usr/bin/apt-get update
+# Keep the installed version of any config file a package wants to replace, rather than stopping to ask
+ExecStart=/usr/bin/apt-get -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold upgrade
+# Runs even when the upgrade fails; --no-block keeps a slow restart clear of the stop timeout
+ExecStopPost=/usr/bin/systemctl start --no-block uplink-refresh.service

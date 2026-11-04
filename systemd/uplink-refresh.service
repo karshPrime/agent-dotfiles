@@ -1,0 +1,11 @@
+[Unit]
+Description=Pull the latest uplink and restart it
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=karsh
+WorkingDirectory=~
+ExecStart=/usr/bin/git -C Services/uplink pull
+ExecStart=/usr/bin/make -C Services/uplink restart
